@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Expression Detection Application Flowchart</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default'
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .mermaid {
+            margin: 30px 0;
+        }
+        .explanation {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        ol {
+            padding-left: 25px;
+        }
+        ol li {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Face Expression Detection Application Flowchart</h1>
+
+    <div class="mermaid">
+        flowchart LR
+            Start([Start Application]) --> LoadModels[Load face-api.js Models]
+            LoadModels --> AccessWebcam[Request Webcam Access]
+
+            AccessWebcam --> WebcamCheck{Webcam Available?}
+            WebcamCheck -->|No| Error[Show Error Message]
+            WebcamCheck -->|Yes| SetupVideo[Initialize Video]
+
+            SetupVideo --> VideoReady{Video Ready?}
+            VideoReady -->|No| Wait[Wait for Video]
+            VideoReady -->|Yes| StartDetection[Start Face Detection Loop]
+
+            StartDetection --> DetectFace[Detect Face in Frame]
+            DetectFace --> FaceFound{Face Detected?}
+            FaceFound -->|No| DetectFace
+            FaceFound -->|Yes| AnalyzeExpressions[Analyze Facial Expressions]
+
+            AnalyzeExpressions --> DetermineEmotion[Determine Dominant Emotion]
+            DetermineEmotion --> UpdateUI[Update UI with Emotion]
+
+            UpdateUI --> ChangeEmoji[Update Emoji Display]
+            UpdateUI --> UpdateBackground[Change Background Color]
+
+            ChangeEmoji --> DetectFace
+            UpdateBackground --> DetectFace
+
+            Error --> End([End Application])
+
+            subgraph "Emotion Analysis"
+                AnalyzeExpressions
+                DetermineEmotion
+            end
+
+            subgraph "UI Updates"
+                UpdateUI
+                ChangeEmoji
+                UpdateBackground
+            end
+
+            subgraph "Face Detection"
+                DetectFace
+                FaceFound
+            end
+    </div>
+
+    <div class="explanation">
+        <h2>Application Components Explanation</h2>
+
+        <ol>
+            <li>
+                <strong>Initialization</strong>
+                <ul>
+                    <li>Application starts and loads face-api.js models</li>
+                    <li>Requests webcam access from the user</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Video Setup</strong>
+                <ul>
+                    <li>Initializes the video element with webcam stream</li>
+                    <li>Waits until video is ready for processing</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Face Detection Loop</strong>
+                <ul>
+                    <li>Continuously captures frames from video</li>
+                    <li>Detects if a face is present in the current frame</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Expression Analysis</strong>
+                <ul>
+                    <li>When a face is detected, analyzes facial expressions</li>
+                    <li>Determines the dominant emotion (happy, sad, angry, etc.)</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>UI Updates</strong>
+                <ul>
+                    <li>Updates the emoji display to match the detected emotion</li>
+                    <li>Changes the background color based on the emotion</li>
+                    <li>Continues the detection loop for real-time updates</li>
+                </ul>
+            </li>
+        </ol>
+
+        <p>This flowchart represents the core logic of the face expression detection application implemented using face-api.js, HTML, and JavaScript.</p>
+    </div>
+</body>
+</html>
